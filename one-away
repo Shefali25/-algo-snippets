@@ -1,0 +1,55 @@
+function oneAway(perfectInputString, modifiedInputString) {
+    let psLength = perfectInputString.length;
+    let msLength = modifiedInputString.length;
+    let stringDifference = psLength - msLength;
+
+    if (stringDifference < -1 || stringDifference > 1) {
+        return false;
+    } else {
+        if (stringDifference === 0) {
+            return possiblyChangedOne(perfectInputString, modifiedInputString);
+        } else if (stringDifference === -1) {
+            return possiblyRemovedOne(modifiedInputString, perfectInputString);
+        } else {
+            return possiblyRemovedOne(perfectInputString, modifiedInputString);
+        }
+    }
+}
+
+function possiblyChangedOne(perfectInputString, modifiedInputString) {
+    let modifiedOnce = true;
+    let psCount = 0, msCount = 0;    
+    while (psCount !== perfectInputString.length) {
+        if (modifiedOnce) {
+            return false;
+        }
+        if (perfectInputString[psCount] !== modifiedInputString[msCount]) {
+            psCount ++;
+            msCount ++;
+            modifiedOnce = true;
+        } else {
+            psCount ++;
+            msCount ++;
+        }
+    }
+    return true;
+}
+
+function possiblyRemovedOne(perfectInputString, modifiedInputString) {
+    let modifiedOnce = false;
+    let psCount = 0, msCount = 0;
+    while (psCount !== perfectInputString.length) {
+        if (modifiedOnce) {
+            return false;
+        }
+        if (perfectInputString[psCount] !== modifiedInputString[msCount]) {
+            psCount ++;
+            modifiedOnce = true;
+        } else {
+            psCount ++;
+            msCount ++;
+        }
+        
+    }
+    return true;
+}
