@@ -1,0 +1,24 @@
+function isPallindromePermutation(inputString) {
+    let numberOfSingleValues = 0;
+    let obj = {};
+    for (let index = 0; index < inputString.length; index++) {
+        const charAtLocation = inputString.charAt(index);
+        if (charAtLocation && charAtLocation !== ' ') {
+           if (!obj[charAtLocation]) {
+                obj[charAtLocation] = 1;
+                numberOfSingleValues ++;
+           } else {
+                obj[charAtLocation] ++;
+                if (obj[charAtLocation]%2 === 0) {
+                    numberOfSingleValues --;
+                } else {
+                    numberOfSingleValues ++;
+                }
+           }
+        }
+    }
+    if (numberOfSingleValues > 1) {
+        return false;
+    }
+    return true;
+}
