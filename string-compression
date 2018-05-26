@@ -1,0 +1,26 @@
+function stringCompression(inputString) {
+    let requiresCompression = false;
+    let numberOfTimes = 1;
+    let newString = '';
+    inputString = inputString.trim();
+    for (let index = 1, startElement = inputString.charAt(0); index < inputString.length; index++) {
+        const element = inputString.charAt(index);
+        
+        if (numberOfTimes >= 2) {
+            requiresCompression = true;
+        }
+        if (element === startElement && index !== inputString.length - 1) {
+            numberOfTimes ++;
+        } else {
+            newString += `${startElement}${numberOfTimes}`;
+            startElement = element;
+            numberOfTimes = 1;
+        }
+        
+    }
+    if (requiresCompression) {
+        return newString;
+    } else {
+        return inputString;
+    }
+}
