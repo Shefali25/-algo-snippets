@@ -1,0 +1,11 @@
+function rotateImage(image) {
+    matrixLength = image.length;
+    for (let rowIndex = 0; rowIndex < image.length; rowIndex++) {
+        for (let colIndex = rowIndex + 1; colIndex < image.length; colIndex++) {
+            let temp = image[rowIndex][colIndex];
+            image[rowIndex][colIndex] = image[colIndex][rowIndex];
+            image[colIndex][rowIndex] = temp;
+        }
+    }
+    return image;
+}
