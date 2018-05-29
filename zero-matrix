@@ -1,0 +1,49 @@
+function zeroMatrix(matrix) {
+    let rowsToSetToZero = [];
+    let colsToSetToZero = [];
+    let m = matrix.length;
+    let n = matrix[0].length;
+    for (let rowCnt = 0; rowCnt < m; rowCnt++) {
+        for (let colCnt = 0; colCnt < n; colCnt++) {
+            let element = matrix[rowCnt][colCnt];
+            
+            if (element === 0) {
+                console.log('element m: ', rowCnt);
+                console.log('element n: ', colCnt);
+                if (rowsToSetToZero.indexOf(rowCnt) < 0) {
+                    rowsToSetToZero.push(rowCnt);
+                }
+                if (colsToSetToZero.indexOf(colCnt) < 0) {
+                    colsToSetToZero.push(colCnt);
+                }
+            }
+        }
+        
+    }
+    matrix = setRowsToZero(matrix, rowsToSetToZero, n);
+    matrix = setColsToZero(matrix, colsToSetToZero, m);
+    return matrix;
+}
+
+function setRowsToZero(matrix, rowsToSetToZero, totalColumns) {
+    for (let rowCnt = 0; rowCnt < rowsToSetToZero.length; rowCnt++) {
+        const rowNumber = rowsToSetToZero[rowCnt];
+        for (let colCnt = 0; colCnt < totalColumns; colCnt++) {
+            if (matrix[rowNumber][colCnt] !== 0) {
+                matrix[rowNumber][colCnt] = 0;
+            }
+        }
+    }
+    return matrix;
+}
+function setColsToZero(matrix, colsToSetToZero, totalRows) {
+    for (let colCnt = 0; colCnt < colsToSetToZero.length; colCnt++) {
+        const colNumber = colsToSetToZero[colCnt];
+        for (let rowCnt = 0; rowCnt < totalRows; rowCnt++) {
+            if (matrix[rowCnt][colNumber] !== 0) {
+                matrix[rowCnt][colNumber] = 0;
+            }
+        }
+    }
+    return matrix;
+}
