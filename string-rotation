@@ -1,0 +1,19 @@
+function stringRotation(string1, stringToCheck) {
+    if (string1.length !== stringToCheck.length) {
+        return false;
+    }
+    for (let strIndex = 0; strIndex < stringToCheck.length; strIndex++) {
+        if (stringToCheck.charAt(strIndex) === string1[0]) {
+            let rotatedString = createRotatedString(stringToCheck, strIndex);
+            if (rotatedString === string1) {
+                return true;
+            }
+        }
+        
+    }
+    return false;
+}
+
+function createRotatedString(string1, strIndex) {
+    return string1.substring(strIndex) + string1.substring(0, strIndex);
+}
