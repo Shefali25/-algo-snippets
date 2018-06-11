@@ -1,0 +1,47 @@
+class LinkedList {
+    constructor(value) {
+        this.head = null;
+        this.length = 0;
+        this.addToHead(value);
+    }
+    
+    printList() {
+        let thisNode = this.head;
+        let finalValues = [];
+        while(thisNode) {
+            finalValues.push(thisNode.value);
+            thisNode = thisNode.next;
+        }
+        return finalValues;
+    }
+}
+
+function rearrangeToValue(valueToUse, linkedList) {
+    linkedList = linkedList?linkedList: createLinkedList();
+    let previousNode = linkedList.head;
+    let thisNode = previousNode.next;
+    
+    while (thisNode) {
+        if (thisNode.value < valueToUse) {
+            let newNode = { value: thisNode.value };
+            newNode.next = linkedList.head;
+            linkedList.head = newNode;
+            previousNode.next = thisNode.next;
+        } else {
+            previousNode = previousNode.next;
+        }
+        thisNode = thisNode.next;
+    };
+    return linkedList.printList();
+}
+
+function createLinkedList() {
+    let ll = new LinkedList(3);
+    ll.addToHead(5);
+    ll.addToHead(8);
+    ll.addToHead(5);
+    ll.addToHead(10);
+    ll.addToHead(2);
+    ll.addToHead(1);
+    return ll;
+}
