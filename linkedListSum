@@ -1,0 +1,76 @@
+
+class LinkedList {
+    constructor(value) {
+        this.head = null;
+        this.length = 0;
+        this.addToHead(value);
+    }
+    
+    addToHead(value) {
+        const newNode = { value };
+        newNode.next = this.head;
+        this.head = newNode;
+        this.length++;
+        return this;
+    }
+
+    printList() {
+	    let thisNode = this.head;
+	    let finalValues = [];
+	    while(thisNode) {
+	        finalValues.push(thisNode.value);
+	        thisNode = thisNode.next;
+	    }
+	    return finalValues;
+	}
+}
+
+function createLinkedList(numberToLink, hasHeadInUnits) {
+	let stringToLink = (numberToLink).toString();
+	console.log('Strng: ', stringToLink);
+	let ll;
+	for (var stringIndex = 0; stringIndex < stringToLink.length; stringIndex++) {
+		let digit = Number(stringToLink.charAt(stringToLink.length - 1 - stringIndex));
+		if (hasHeadInUnits) {
+			digit = Number(stringToLink.charAt(stringIndex));
+		}
+		console.log('digit at: ' + stringIndex + ': ' + digit);
+		if (stringIndex === 0) {
+			ll = new LinkedList(digit);
+		} else {
+			ll.addToHead(digit);
+		}
+	}
+	return ll;
+}
+
+
+function getNumberFromLinkedList (linkedList) {
+	console.log('hi: ', linkedList);
+	nodeVisit = linkedList.head;
+	let numberToAdd = '';
+	while(true) {
+		numberToAdd += nodeVisit.value;
+		if (nodeVisit.next) {
+			nodeVisit = nodeVisit.next;
+		} else {
+			break;
+		}
+	}
+	return parseInt(numberToAdd, 10);
+}
+
+function sumOfNumbers (ll1, ll2) {
+	let number1 = getNumberFromLinkedList(ll1);
+	let number2 = getNumberFromLinkedList(ll2);
+	console.log('n1: ', number1);
+	console.log('n2: ', number2);
+	let finalNumber = number1 + number2;
+	let finalLinkedList = createLinkedList(finalNumber);
+	console.log(finalLinkedList.printList());
+}
+
+let hasHeadInUnits = false;
+let ll1 = createLinkedList(730, hasHeadInUnits);
+let ll2 = createLinkedList(592, hasHeadInUnits);
+sumOfNumbers(ll1, ll2);
