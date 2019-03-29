@@ -1,0 +1,122 @@
+'use strict';
+
+const fs = require('fs');
+
+process.stdin.resume();
+process.stdin.setEncoding('utf-8');
+
+let inputString = '';
+let currentLine = 0;
+
+process.stdin.on('data', function(inputStdin) {
+    inputString += inputStdin;
+});
+
+process.stdin.on('end', function() {
+    inputString = inputString.split('\n');
+
+    main();
+});
+
+function readLine() {
+    return inputString[currentLine++];
+}
+
+
+
+/*
+ * Complete the 'primeQuery' function below.
+ *
+ * The function is expected to return an INTEGER_ARRAY.
+ * The function accepts following parameters:
+ *  1. INTEGER n
+ *  2. INTEGER_ARRAY first
+ *  3. INTEGER_ARRAY second
+ *  4. INTEGER_ARRAY values
+ *  5. INTEGER_ARRAY queries
+ */
+
+function primeQuery(n, first, second, values, queries) {
+    // Write your code here
+    let tree = {};
+    for (let i = 0; i < first.length; i++) {
+        first[i] = parseInt(first[i]);
+        second[i] = parseInt(second[i]);
+        if (!tree[first[i]]) {
+            tree[first[i]] = { val: first[i], connections: [second[i]] }
+        } else {
+            tree[first[i]].connections.push(second[i]);
+        }
+        if (!tree[second[i]]) {
+            tree[second[i]] = { val: second[i], connections: [first[i]] }
+        } else {
+            tree[second[i]].connections.push(first[i]);
+        }
+    }
+    for (let i = 1; i <= n; i++) {
+        tree[i].isPrime = isPrime(values[i - 1])
+    }
+    // Sort nodes
+    Object.keys(tree).map(key => tree[key].connections.sort((a, b) => a - b))
+    // Set root
+    tree[1].root = true;
+    tree = traverseNode(tree, 1)
+    console.log(tree);
+    let primeQueryResult = []
+    for (let i = 0; i < queries.length; i++) {
+        primeQueryResult.push(tree[queries[i]].numberOfPrimes);
+    }
+    return primeQueryResult
+}
+
+function isPrime(n) {
+    // Corner case 
+    if (n <= 1)
+        return false;
+    // Check from 2 to n-1 
+    for (let i = 2; i < n; i++)
+    if (n % i == 0)
+        return false;
+    return true;
+} 
+
+function traverseNode(tree, rootVal) {
+    root = tree[rootVal]
+    root.parent = null;
+    root.visited = true;
+
+    function createParentChild(node) {
+        node.numberOfPrimes = node.isPrime ? 1 : 0;
+        node.connections.map(connectionValue => {
+            let conn = tree[connectionValue];
+            if (!conn.visited) {
+                if (node.children) {
+                    node.children.push(conn.val);
+                } else {
+                    node.children = [conn.val]
+                }
+                conn.parent = node.val;
+                let primeValue = conn.isPrime ? 1 : 0;
+                if (primeValue) {
+                    updatePrime(connectionValue, primeValue);
+                }
+                conn.visited = true;
+                createParentChild(conn);
+            }
+        })
+    }
+    function updatePrime(connectionValue, isPrime) {
+        let node = tree[connectionValue];
+        console.log('here: ', node);
+        while (node.parent) {
+            node = tree[node.parent];
+            node.numberOfPrimes += isPrime; 
+        }
+    }
+    createParentChild(root);
+    return tree;
+}
+
+
+
+main()
